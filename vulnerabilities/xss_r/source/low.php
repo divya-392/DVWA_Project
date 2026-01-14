@@ -1,11 +1,13 @@
 <?php
 
-header ("X-XSS-Protection: 0");
+if (isset($_GET['name'])) {
 
-// Is there any input?
-if( array_key_exists( "name", $_GET ) && $_GET[ 'name' ] != NULL ) {
-	// Feedback for end user
-	$html .= '<pre>Hello ' . $_GET[ 'name' ] . '</pre>';
+    $name = $_GET['name'];
+
+    // FIX: Encode output to prevent script execution
+    $safe_name = htmlspecialchars($name, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+
+    echo "<pre>Hello {$safe_name}</pre>";
 }
 
 ?>
